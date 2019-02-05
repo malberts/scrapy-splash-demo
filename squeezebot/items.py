@@ -6,9 +6,19 @@
 # https://doc.scrapy.org/en/latest/topics/items.html
 
 import scrapy
+from scrapy.loader import ItemLoader
+from scrapy.loader.processors import TakeFirst
 
 
-class SqueezebotItem(scrapy.Item):
+class Track(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    pass
+    title = scrapy.Field()
+    user = scrapy.Field()
+    tag = scrapy.Field()
+    likes = scrapy.Field()
+    url = scrapy.Field()
+
+
+class TrackItemLoader(ItemLoader):
+    default_output_processor = TakeFirst()

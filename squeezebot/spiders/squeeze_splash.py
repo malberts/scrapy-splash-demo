@@ -5,6 +5,8 @@ import scrapy
 from scrapy.exceptions import CloseSpider
 from scrapy_splash import SplashRequest
 
+from ..items import Track, TrackItemLoader
+
 
 class SqueezeSplashSpider(scrapy.Spider):
     name = "squeeze-splash"
@@ -44,11 +46,11 @@ class SqueezeSplashSpider(scrapy.Spider):
             raise CloseSpider("Could not load Lua script.")
 
     def parse(self, response):
-        for item in response.css(".searchItem")[: self.target_count]:
-            yield {
-                "user": item.css(".soundTitle__usernameText::text").get(),
-                "title": item.css(".soundTitle__title span::text").get(),
-                "tag": item.css(".soundTitle__tagContent::text").get(),
-                "popularity": item.css(".sc-button-like::text").get(),
-                "link": item.css(".soundTitle__title::attr(href)").get(),
-            }
+        for item in response.css(".searchItem")[:self.target_count]:
+            track = TrackItemLoader(item=Track(), selector=item)
+            track.add_css('user', ".soundTitle__usernameText")
+            track.add_css('title', ".soundTitle__title span")
+            track.add_css('tag', ".soundTitle__tagContent")
+            track.add_css('likes', ".sc-button-like")
+            track.add_css('url', ".soundTitle__title::attr(href)")
+            yield track.load_item()
