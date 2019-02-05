@@ -1,0 +1,18 @@
+version: '3'
+
+services:
+  scrapy:
+    build: .
+    command: bash -c "rm -f tracks.csv && scrapy crawl squeeze-splash -o tracks-$$(date +%s).csv -a target_count=-1"
+    volumes:
+      - .:/app
+    depends_on:
+      - splash
+    environment:
+      SPLASH_URL: "http://splash:8050"
+
+  splash:
+    command: ["--max-timeout", "600"]
+    image: scrapinghub/splash
+    ports:
+      - "8050:8050"

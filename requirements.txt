@@ -1,0 +1,2 @@
+Scrapy==1.6.0
+scrapy-splash==0.7.2
