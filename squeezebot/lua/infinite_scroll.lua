@@ -18,6 +18,7 @@ function main(splash, args)
   if args.target_count and args.target_count > 0 then
     target_count = args.target_count
   end
+  print('Target count: ' .. target_count)
 
   local has_enough = false
   local end_of_page = false
@@ -25,7 +26,9 @@ function main(splash, args)
 
   -- Keep scrolling down until enough items are found, or the end of the page
   -- is reached.
+  local scroll_counter = 1
   repeat
+    print('Scroll iteration: ' .. scroll_counter)
     last_count = count_items()
 
     local last_y = splash.scroll_position['y']
@@ -40,11 +43,15 @@ function main(splash, args)
       if new_count >= last_count + 10 then break end
     end
 
+    print("New count: " .. new_count)
+
     -- If we found enough items.
     has_enough = target_count > 0 and new_count >= target_count
 
     -- If the end of the page is reached, stop.
     end_of_page = splash.scroll_position['y'] == last_y
+
+    scroll_counter = scroll_counter + 1
   until (has_enough or end_of_page)
 
   return {
