@@ -46,11 +46,12 @@ class SqueezeSplashSpider(scrapy.Spider):
             raise CloseSpider("Could not load Lua script.")
 
     def parse(self, response):
-        for item in response.css(".searchItem")[:self.target_count]:
+        for item in response.css(".searchItem")[: self.target_count]:
             track = TrackItemLoader(item=Track(), selector=item)
-            track.add_css('user', ".soundTitle__usernameText")
-            track.add_css('title', ".soundTitle__title span")
-            track.add_css('tag', ".soundTitle__tagContent")
-            track.add_css('likes', ".sc-button-like")
-            track.add_css('url', ".soundTitle__title::attr(href)")
+            track.add_css("user", ".soundTitle__usernameText")
+            track.add_css("title", ".soundTitle__title span")
+            track.add_css("date", ".relativeTime::attr(datetime)")
+            track.add_css("tag", ".soundTitle__tagContent")
+            track.add_css("likes", ".sc-button-like")
+            track.add_css("url", ".soundTitle__title::attr(href)")
             yield track.load_item()

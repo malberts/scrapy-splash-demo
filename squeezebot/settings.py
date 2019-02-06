@@ -18,7 +18,7 @@ NEWSPIDER_MODULE = "squeezebot.spiders"
 
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'squeeze-splash (+https://github.com/malberts/scrapy-splash-demo/)'
+USER_AGENT = "squeeze-splash (+https://github.com/malberts/scrapy-splash-demo/)"
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = True
@@ -69,9 +69,7 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {
-   'squeezebot.pipelines.TrackCleanupPipeline': 300,
-}
+ITEM_PIPELINES = {"squeezebot.pipelines.TrackCleanupPipeline": 300}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
