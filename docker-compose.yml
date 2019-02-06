@@ -3,7 +3,7 @@ version: '3'
 services:
   scrapy:
     build: .
-    command: bash -c "rm -f tracks.csv && scrapy crawl squeeze-splash -o tracks-$$(date +%s).csv -a target_count=-1"
+    command: bash -c "rm -f tracks.csv && scrapy crawl squeeze-splash -o scrapes/$$(date +%s).csv -a target_count=${TARGET_COUNT}"
     volumes:
       - .:/app
     depends_on:
