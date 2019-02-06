@@ -47,7 +47,7 @@ class SqueezeSplashSpider(scrapy.Spider):
 
     def parse(self, response):
         for item in response.css(".searchItem")[: self.target_count]:
-            track = TrackItemLoader(item=Track(), selector=item)
+            track = TrackItemLoader(item=Track(), selector=item, response=response)
             track.add_css("user", ".soundTitle__usernameText")
             track.add_css("title", ".soundTitle__title span")
             track.add_css("date", ".relativeTime::attr(datetime)")
