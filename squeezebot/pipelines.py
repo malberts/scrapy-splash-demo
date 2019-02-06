@@ -10,6 +10,10 @@ from datetime import datetime
 
 from w3lib.html import remove_tags
 
+from scrapy.exceptions import DropItem
+
+from .models import db, Track
+
 
 class TrackCleanupPipeline(object):
     def process_item(self, item, spider):
@@ -24,3 +28,21 @@ class TrackCleanupPipeline(object):
             item["likes"] = 0
         item["url"] = remove_tags(item.get("url"))
         return item
+
+
+class DatabasePipeline(object):
+    def open_spider(self, spider):
+        self.db = db
+        self.db.connect()
+        self.db.create_tables([Track])
+
+    def close_spider(self, spider):
+        self.db.close()
+
+    def process_item(self, item, spider):
+        track, created = Track.get_or_create(**dict(item))
+        if created:
+            track.save()
+            return item
+
+        raise DropItem(f"Track {item} already exists.")

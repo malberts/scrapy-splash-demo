@@ -69,7 +69,10 @@ DOWNLOADER_MIDDLEWARES = {
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {"squeezebot.pipelines.TrackCleanupPipeline": 300}
+ITEM_PIPELINES = {
+    "squeezebot.pipelines.TrackCleanupPipeline": 300,
+    "squeezebot.pipelines.DatabasePipeline": 350,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
