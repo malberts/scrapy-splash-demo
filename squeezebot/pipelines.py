@@ -12,7 +12,7 @@ from w3lib.html import remove_tags
 
 from scrapy.exceptions import DropItem
 
-from .models import db, Track
+from .models import db, Tag, Track, User
 
 
 class TrackCleanupPipeline(object):
@@ -34,15 +34,27 @@ class DatabasePipeline(object):
     def open_spider(self, spider):
         self.db = db
         self.db.connect()
-        self.db.create_tables([Track])
+        self.db.create_tables([Tag, Track, User])
 
     def close_spider(self, spider):
         self.db.close()
 
     def process_item(self, item, spider):
-        track, created = Track.get_or_create(**dict(item))
-        if created:
-            track.save()
+        tag = None
+        if item.get("tag"):
+            tag, tag_created = Tag.get_or_create(name=item.get("tag"))
+
+        user, user_created = User.get_or_create(username=item.get("user"))
+
+        track, track_created = Track.get_or_create(
+            title=item.get("title"),
+            date=item.get("date"),
+            user=user,
+            tag=tag,
+            likes=item.get("likes"),
+            url=item.get("url"),
+        )
+        if track_created:
             return item
 
         raise DropItem(f"Track {item} already exists.")
