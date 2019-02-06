@@ -57,4 +57,4 @@ class DatabasePipeline(object):
         if track_created:
             return item
 
-        raise DropItem(f"Track {item} already exists.")
+        raise DropItem('Track "{}" already exists.'.format(item.get("title")))
