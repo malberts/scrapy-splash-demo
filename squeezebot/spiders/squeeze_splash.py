@@ -14,9 +14,12 @@ class SqueezeSplashSpider(scrapy.Spider):
     start_urls = [
         "https://soundcloud.com/search/sounds?q=accordion&filter.created_at=last_week"
     ]
+    # Default to -1 to select all.
+    target_count = -1
 
     def __init__(self, target_count=-1, *args, **kwargs):
-        self.target_count = int(target_count)
+        if target_count:
+            self.target_count = int(target_count)
         super().__init__(*args, **kwargs)
 
     def infinite_scroll_script_path(self):
