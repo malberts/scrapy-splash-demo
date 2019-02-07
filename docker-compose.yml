@@ -3,7 +3,7 @@ version: '3'
 services:
   scrapy:
     build: .
-    command: bash -c "rm -f tracks.csv && scrapy crawl squeeze-splash -o scrapes/$$(date +%s).csv -a target_count=${TARGET_COUNT}"
+    command: bash -c "rm -f tracks.csv && scrapy crawl squeeze-splash -o 'scrapes/%(time)s.csv' -a target_count=${TARGET_COUNT}"
     volumes:
       - .:/app
     depends_on:
@@ -13,6 +13,6 @@ services:
 
   splash:
     command: ["--max-timeout", "600"]
-    image: scrapinghub/splash
+    image: scrapinghub/splash:3.3
     ports:
       - "8050:8050"
