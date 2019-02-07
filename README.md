@@ -13,3 +13,6 @@ Run:
 `docker-compose up`
 
 This will launch both Splash and the spider. The resulting scrapes will be stored in the `scrapes` folder and new items will be persisted to a SQLite database `tracks.db`.
+
+## Configuration
+By default all items will be scraped. To specify a maximum number, copy the provided [.env.example](.env.example) to `.env` and edit the `TARGET_COUNT` value within.
